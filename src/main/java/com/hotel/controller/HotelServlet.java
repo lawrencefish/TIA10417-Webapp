@@ -258,7 +258,7 @@ public class HotelServlet extends HttpServlet {
 
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
-				if (idFrontPart != null || idBackPart != null || licensePart != null) {
+				if (idFrontPart.getSize() != 0 || idBackPart.getSize() != 0 || licensePart.getSize() != 0) {
 					errorMsgs.add("請重新上傳照片");
 				}
 				HotelService hotelSvc = new HotelService();
