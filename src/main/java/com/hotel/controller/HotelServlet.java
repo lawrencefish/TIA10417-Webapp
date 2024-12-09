@@ -214,6 +214,29 @@ public class HotelServlet extends HttpServlet {
 				license = licensePart.getInputStream().readAllBytes();
 			}
 
+			/***************************
+			 * 2.檢查是否有重複資料
+			 ***************************************/
+			HotelService hotelSvcCheck = new HotelService();
+			List<HotelVO> hotelList = hotelSvcCheck.getAll();
+
+			for (HotelVO hotel : hotelList) {
+				if (!hotel.getHotel_id().equals(hotel_id)) { // 排除自己
+					if (hotel.getTax_id().equals(tax_id)) {
+						errorMsgs.add("統一編號已存在");
+					}
+					if (hotel.getEmail().equals(email)) {
+						errorMsgs.add("Email 已存在");
+					}
+					if (hotel.getPhone_number().equals(phone_number)) {
+						errorMsgs.add("電話號碼已存在");
+					}
+					if (hotel.getName().equals(name)) {
+						errorMsgs.add("飯店名稱已存在");
+					}
+				}
+			}
+
 			HotelVO hotelVO = new HotelVO();
 			hotelVO.setHotel_id(hotel_id);
 			hotelVO.setTax_id(tax_id);
@@ -377,6 +400,25 @@ public class HotelServlet extends HttpServlet {
 				errorMsgs.add("營業證照必須新增圖片");
 			} else {
 				license = licensePart.getInputStream().readAllBytes();
+			}
+
+			/*********************** 2.檢查是否有重複資料 *************************/
+			HotelService hotelSvcCheck = new HotelService();
+			List<HotelVO> hotelList = hotelSvcCheck.getAll();
+
+			for (HotelVO hotel : hotelList) {
+				if (hotel.getTax_id().equals(tax_id)) {
+					errorMsgs.add("統一編號已存在");
+				}
+				if (hotel.getEmail().equals(email)) {
+					errorMsgs.add("Email 已存在");
+				}
+				if (hotel.getPhone_number().equals(phone_number)) {
+					errorMsgs.add("電話號碼已存在");
+				}
+				if (hotel.getName().equals(name)) {
+					errorMsgs.add("飯店名稱已存在");
+				}
 			}
 
 			HotelVO hotelVO = new HotelVO();
